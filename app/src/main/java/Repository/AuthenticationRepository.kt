@@ -1,25 +1,26 @@
 package Repository
 
+import Utilities.UserData
 import android.app.Application
-import android.content.Context
 import android.widget.Toast
-import com.firebase.ui.auth.data.model.User
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.firestore.FirebaseFirestore
 
 class AuthenticationRepository {
 
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
     private var firebaseUser:FirebaseUser = auth.currentUser!!
+    private var firestore:FirebaseFirestore = FirebaseFirestore.getInstance()
 
     fun registerUser(application: Application,username: String, email:String, password:String)
     {
         auth.createUserWithEmailAndPassword(email,password)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
+                    updateProfile(application, email)
                     updateUsername(application, username)
                 } else {
                     Toast.makeText(application.applicationContext, it.exception?.message, Toast.LENGTH_SHORT).show()
@@ -49,6 +50,23 @@ class AuthenticationRepository {
             }
     }
 
+    private fun updateProfile(application: Application, email: String)
+    {
+        val userData = UserData("","","","")
+
+        firestore.collection("USERS").document(email)
+            .set(userData)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+
+                } else {
+                    Toast.makeText(application.applicationContext, it.exception?.message, Toast.LENGTH_SHORT).show()
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(application.applicationContext, it.message, Toast.LENGTH_SHORT).show()
+            }
+    }
 
     fun loginUser(application: Application, email:String, password:String)
     {

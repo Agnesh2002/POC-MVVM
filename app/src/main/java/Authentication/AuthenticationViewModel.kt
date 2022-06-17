@@ -21,7 +21,6 @@ class AuthenticationViewModel(application: Application) : AndroidViewModel(appli
 
     fun onRegister()
     {
-
         if(!validateUsername(etUsername))
         {
             errorCode.value = 1
@@ -45,7 +44,6 @@ class AuthenticationViewModel(application: Application) : AndroidViewModel(appli
 
         errorCode.value = 0
         authenticationRepository.registerUser(getApplication(),etUsername,etEmail,etPass)
-
 
     }
 
@@ -75,7 +73,6 @@ class AuthenticationViewModel(application: Application) : AndroidViewModel(appli
         errorCode.value = 0
         authenticationRepository.resetPassword(getApplication(),etEmail)
     }
-
 
     private fun validateUsername(username: String): Boolean
     {
