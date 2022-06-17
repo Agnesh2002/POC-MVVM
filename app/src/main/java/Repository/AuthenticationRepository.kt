@@ -29,13 +29,31 @@ class AuthenticationRepository {
             })
     }
 
-    fun loginUser(application: Application,email:String, password:String)
+    fun loginUser(application: Application, email:String, password:String)
     {
         auth.signInWithEmailAndPassword(email,password)
             .addOnCompleteListener(OnCompleteListener {
                 if(it.isSuccessful)
                 {
                     Toast.makeText(application.applicationContext,"User logged in successfully",Toast.LENGTH_SHORT).show()
+                }
+                else
+                {
+                    Toast.makeText(application.applicationContext,it.exception?.message,Toast.LENGTH_SHORT).show()
+                }
+            })
+            .addOnFailureListener(OnFailureListener {
+                Toast.makeText(application.applicationContext,it.message,Toast.LENGTH_SHORT).show()
+            })
+    }
+
+    fun resetPassword(application: Application, email: String)
+    {
+        auth.sendPasswordResetEmail(email)
+            .addOnCompleteListener(OnCompleteListener {
+                if(it.isSuccessful)
+                {
+                    Toast.makeText(application.applicationContext,"Password reset link has been sent to the provided email address",Toast.LENGTH_LONG).show()
                 }
                 else
                 {

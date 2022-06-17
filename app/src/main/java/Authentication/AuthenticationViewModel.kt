@@ -4,6 +4,7 @@ import Repository.AuthenticationRepository
 import android.app.Application
 import android.content.Context
 import android.provider.ContactsContract
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -71,8 +72,9 @@ class AuthenticationViewModel(application: Application) : AndroidViewModel(appli
             errorCode.value = 2
             return
         }
-        //errorCode.value = 0
-
+        errorCode.value = 0
+        Log.d("TEST","in method")
+        authenticationRepository.resetPassword(getApplication(),etEmail)
     }
 
 
