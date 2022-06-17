@@ -44,7 +44,7 @@ class AuthenticationViewModel(application: Application) : AndroidViewModel(appli
         }
 
         errorCode.value = 0
-        authenticationRepository.registerUser(getApplication(),etEmail,etPass)
+        authenticationRepository.registerUser(getApplication(),etUsername,etEmail,etPass)
 
 
     }
@@ -73,7 +73,6 @@ class AuthenticationViewModel(application: Application) : AndroidViewModel(appli
             return
         }
         errorCode.value = 0
-        Log.d("TEST","in method")
         authenticationRepository.resetPassword(getApplication(),etEmail)
     }
 
